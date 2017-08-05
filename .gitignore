@@ -1,1 +1,8 @@
-*.fscache
+# Godot cache file
+.fscache
+
+# SO generated files
+.directory
+*.DS_Store
+Thumbs.db
+Desktop.ini
