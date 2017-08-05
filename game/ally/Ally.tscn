@@ -13,8 +13,11 @@ script/source = "extends KinematicBody2D
 var input_states = preload('res://utils/input_states.gd')
 var player = null
 export var follow = true
-export var speed = 0.500
+export var speed = 1
 var toggle_follow = input_states.new('toggle_follow')
+
+func in_length_range(vector):
+	return (100 < vector.length()) and ( vector.length() < 600)
 
 func _ready():
 	player = get_node(\"../Player\")
@@ -22,17 +25,15 @@ func _ready():
 
 func _fixed_process(delta):
 	var direction = player.get_global_pos() - self.get_global_pos()
+	print (direction.length())
 	if toggle_follow.check() == 2:
 		self.follow = false
 	else:
 		self.follow = true
-	if self.follow:
+	if self.follow and in_length_range(direction):
 		self.move(direction * speed * delta)
 		#self.move_to(player_position)
-	if self.is_colliding():
-		print (self.get_collider().name)
-	else:
-		print (\"not_colliding\")"
+	"
 
 [node name="Ally" type="KinematicBody2D"]
 
@@ -45,7 +46,7 @@ collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
 follow = true
-speed = 0.1
+speed = 1
 
 [node name="sprite" type="Sprite" parent="."]
 
