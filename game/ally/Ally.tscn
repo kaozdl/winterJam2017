@@ -11,13 +11,18 @@ extents = Vector2( 10, 10 )
 
 script/source = "extends KinematicBody2D
 
-var input_states = preload('res://utils/input_states.gd')
 var player = null
+<<<<<<< HEAD
 export var follow = true
 export var speed = 10
 var toggle_follow = input_states.new('toggle_follow')
+=======
+var direction = Vector2()
+var velocity = Vector2()
+export var slow_factor = 0.35
+>>>>>>> ba342e8... Refactor ally speed.
 
-func in_length_range(vector):
+func is_in_length_range(vector):
 	return (100 < vector.length()) and (vector.length() < 600)
 
 func _ready():
@@ -25,18 +30,14 @@ func _ready():
 	set_fixed_process(true)
 
 func _fixed_process(delta):
-	var direction = player.get_global_pos() - self.get_global_pos()
-	if toggle_follow.check() == 2:
-		self.follow = false
-	else:
-		self.follow = true
+	direction = player.get_global_pos() - get_global_pos()
 	
-	if self.follow and in_length_range(direction):
-		var move = self.move(direction * speed * delta)
+	if is_in_length_range(direction):
+		var move = move(direction * delta * slow_factor)
 		
 		if (is_colliding()):
 			var n = get_collision_normal()
-			move = n.slide(direction * speed * delta)
+			move = n.slide(direction * delta * slow_factor)
 			move(move)
 	"
 
@@ -50,8 +51,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
-follow = true
-speed = 1
+slow_factor = 0.35
 
 [node name="sprite" type="Sprite" parent="."]
 
