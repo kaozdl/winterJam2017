@@ -23,10 +23,12 @@ script/script = SubResource( 1 )
 
 [node name="Ally" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 723.538, 474.332 )
+transform/pos = Vector2( 532.538, 150.332 )
+speed = 0.1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( 317.032, 147.361 )
+name = "player"
 
 
