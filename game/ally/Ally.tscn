@@ -19,11 +19,16 @@ var toggle_follow = input_states.new('toggle_follow')
 =======
 var direction = Vector2()
 var velocity = Vector2()
+export var time_out_default = 8
+var time_out = time_out_default
 export var slow_factor = 0.35
 >>>>>>> ba342e8... Refactor ally speed.
 
 func is_in_length_range(vector):
 	return (100 < vector.length()) and (vector.length() < 600)
+	
+func is_gonna_die(vector):
+	return vector.length() > 650
 
 func _ready():
 	player = get_node(\"../Player\")
@@ -31,6 +36,14 @@ func _ready():
 
 func _fixed_process(delta):
 	direction = player.get_global_pos() - get_global_pos()
+	
+	if is_gonna_die(direction):
+		time_out -= delta
+		print(time_out)
+		if time_out <= 0:
+			print(\"Moriste\")
+	else:
+		time_out = time_out_default
 	
 	if is_in_length_range(direction):
 		var move = move(direction * delta * slow_factor)
@@ -51,6 +64,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
+time_out_default = 8
 slow_factor = 0.35
 
 [node name="sprite" type="Sprite" parent="."]

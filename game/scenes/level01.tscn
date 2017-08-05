@@ -26,6 +26,7 @@ script/script = SubResource( 1 )
 [node name="Ally" parent="." instance=ExtResource( 1 )]
 
 transform/pos = Vector2( 532.538, 150.332 )
+time_out_default = 10
 slow_factor = 0.35
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
