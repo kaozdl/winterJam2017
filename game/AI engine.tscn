@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://ally/Ally.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node2D
+
+# class member variables go here, for example:
+var player = null
+var ally = null
+
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	player = get_node(\"Player\")
+	ally = get_node(\"Ally\")
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	var player_position = player.get_global_pos()
+	var test = ally.move_to(player_position)
+	print(test)"
+
+[node name="AiEngine" type="Node2D"]
+
+script/script = SubResource( 1 )
+
+[node name="Ally" parent="." instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 723.538, 474.332 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+
+transform/pos = Vector2( 317.032, 147.361 )
+
+
