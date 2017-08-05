@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
-[ext_resource path="res://player/ball_shape.tex" type="Texture" id=1]
+[ext_resource path="res://player/player.gd" type="Script" id=1]
+[ext_resource path="res://player/ball_shape.tex" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -17,13 +18,15 @@ shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
+script/script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
+player_speed = 200
 
 [node name="Sprite" type="Sprite" parent="."]
 
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
