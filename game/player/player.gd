@@ -33,5 +33,4 @@ func _fixed_process(delta):
 	if (is_colliding()):
 		var n = get_collision_normal()
 		motion = n.slide(motion)
-		velocity = n.slide(velocity)
 		move(motion)
