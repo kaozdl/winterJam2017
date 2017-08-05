@@ -5,7 +5,6 @@
 [ext_resource path="res://scenes/tiles.res" type="TileSet" id=3]
 [ext_resource path="res://enemies/MeleeEnemy.tscn" type="PackedScene" id=4]
 
-
 [sub_resource type="GDScript" id=1]
 
 script/source = "extends Node2D
@@ -27,8 +26,8 @@ script/script = SubResource( 1 )
 [node name="Ally" parent="." instance=ExtResource( 1 )]
 
 transform/pos = Vector2( 532.538, 150.332 )
+slow_factor = 0.2
 time_out_default = 10
-slow_factor = 0.35
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 

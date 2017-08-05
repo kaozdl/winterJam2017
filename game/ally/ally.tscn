@@ -11,21 +11,17 @@ extents = Vector2( 10, 10 )
 
 script/source = "extends KinematicBody2D
 
+export var cool_down = 10
+export var slow_factor = 0.2
+export var time_out_default = 8
+
 var player = null
-<<<<<<< HEAD
-export var follow = true
-export var speed = 10
-var toggle_follow = input_states.new('toggle_follow')
-=======
 var direction = Vector2()
 var velocity = Vector2()
-export var time_out_default = 8
 var time_out = time_out_default
-export var slow_factor = 0.35
->>>>>>> ba342e8... Refactor ally speed.
 
 func is_in_length_range(vector):
-	return (100 < vector.length()) and (vector.length() < 600)
+	return (100 < vector.length()) and (vector.length() < 650)
 	
 func is_gonna_die(vector):
 	return vector.length() > 650
@@ -64,8 +60,9 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
-time_out_default = 8
+cool_down = 10
 slow_factor = 0.35
+time_out_default = 8
 
 [node name="sprite" type="Sprite" parent="."]
 
