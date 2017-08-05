@@ -13,18 +13,11 @@ var ally = null
 
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	player = get_node(\"Player\")
-	ally = get_node(\"Ally\")
 	set_fixed_process(true)
 
-func _fixed_process(delta):
-	var player_position = player.get_global_pos()
-	var test = ally.move_to(player_position)
-	print(test)"
+	"
 
-[node name="AiEngine" type="Node2D"]
+[node name="Level 01" type="Node2D"]
 
 script/script = SubResource( 1 )
 

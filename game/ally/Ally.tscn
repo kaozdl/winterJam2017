@@ -11,14 +11,19 @@ extents = Vector2( 10, 10 )
 
 script/source = "extends KinematicBody2D
 
+var player = null
 # class member variables go here, for example:
 export var follow = true
-# var b = \"textvar\"
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+	player = get_node(\"../Player\")
+	
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	var player_position = player.get_global_pos()
+	if self.follow:
+		self.move_to(player_position)
 "
 
 [node name="Ally" type="KinematicBody2D"]
