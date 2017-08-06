@@ -58,11 +58,9 @@ __meta__ = {
 [node name="MeleeEnemy1" parent="." instance=ExtResource( 4 )]
 
 transform/pos = Vector2( 1023, 32 )
-timeout = 0
 
 [node name="MeleeEnemy2" parent="." instance=ExtResource( 4 )]
 
 transform/pos = Vector2( 869, 196 )
-timeout = 0
 
 
