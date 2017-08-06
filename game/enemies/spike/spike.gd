@@ -7,6 +7,7 @@ var aux_timer = timer
 var area = null
 var tex_on = load("res://enemies/spike/spike_on.tex")
 var tex_off = load("res://enemies/spike/spike_off.tex")
+var overlap = null
 
 func _ready():
 	set_process(true)
@@ -15,16 +16,20 @@ func _ready():
 	
 func _process(delta):
 	if status == "on":
+		
+		overlap = area.get_overlapping_bodies()
+		for i in overlap:
+			if i.is_in_group("players"):
+				get_tree().change_scene("res://scenes/game_over.tscn")
+		
 		aux_timer -= delta
 		if aux_timer <= 0:
 			status = "off"
-			area.set_enable_monitoring(false)
 			aux_timer = timer
 			set_texture(tex_off)
 	elif status == "off":
 		aux_timer -= delta
 		if aux_timer <= 0:
 			status = "on"
-			area.set_enable_monitoring(true)
 			aux_timer = timer
 			set_texture(tex_on)
