@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://player/ball_shape.tex" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Sprite
+
+var lifetime = 10
+var enemies = []
+var shape
+
+func set_trigger(enemies):
+	for enemy in enemies:
+		if enemy.is_in_group('enemies'):
+			enemy.set_triggered()
+
+func _ready():
+	shape = get_node('Area2D')
+	self.set_global_pos(Vector2(1200000,1200000))
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	lifetime -= delta
+	
+	enemies = shape.get_overlapping_bodies()
+	set_trigger(enemies)
+	
+	if lifetime <= 0:
+		self.set_global_pos(Vector2(1200000,1200000))
+		lifetime = 10"
+
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[node name="decoy" type="Sprite"]
+
+texture = ExtResource( 1 )
+script/script = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 15, 0, 0, 15, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+transform/scale = Vector2( 15, 15 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+

@@ -12,6 +12,12 @@ var FacingDirection
 var FutureFacingDirection
 var PreviousFacingDirection
 var attack_btn = input_states.new('attack_btn') 
+# DECOY 
+var aggro_btn = input_states.new("aggro_btn")
+var decoy = null
+var decoy_cooldown = 8
+var decoy_aux_cooldown = decoy_cooldown
+var enable_decoy = true
 
 func attack(target_area):
 	enemies_on_area = target_area.get_overlapping_bodies()
@@ -49,6 +55,17 @@ func _fixed_process(delta):
 	velocity.x = 0
 	velocity.y = 0
 	get_node("AnimatedSprite/AnimationPlayer").play("idle")
+	
+	if aggro_btn.check() == 1 and enable_decoy:
+		decoy = get_node('../decoy')
+		decoy.set_global_pos(get_global_pos())
+		enable_decoy = false
+		
+	if not enable_decoy:
+		decoy_aux_cooldown -= delta
+		if decoy_aux_cooldown <= 0:
+			decoy_aux_cooldown = decoy_cooldown
+			enable_decoy = true
 	
 	if (Input.is_action_pressed("walk_left")):
 		velocity.x = -player_speed

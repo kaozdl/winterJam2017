@@ -50,7 +50,6 @@ func _fixed_process(delta):
 	for colission in colissions:
 		if colission.is_in_group('enemies'):
 			ally_timeout -= delta
-			print(ally_timeout)
 	
 	if ally_timeout <= 0:
 		get_tree().change_scene('res://scenes/game_over.tscn')
@@ -103,7 +102,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
-slow_factor = 0.35
+slow_factor = 0.9
 time_out_default = 8
 
 [node name="sprite" type="Sprite" parent="."]

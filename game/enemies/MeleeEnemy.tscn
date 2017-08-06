@@ -10,7 +10,6 @@ extents = Vector2( 10, 10 )
 [sub_resource type="GDScript" id=2]
 
 script/source = "extends KinematicBody2D
-var input_states = preload('res://utils/input_states.gd')
 
 var area = null
 var player = null
@@ -24,7 +23,6 @@ var aggro_enabled_time = 3
 var aggro_cooldown_time = 20
 var aggro_enabled = true
 var aux_aggro_timer = 3
-var aggro_btn = input_states.new(\"aggro_btn\")
 var aggro_status = \"enabled\"
 var activated = false
 
@@ -38,13 +36,15 @@ func disable():
 func activate():
 	self.activated = true
 
+func set_triggered():
+	self.aggro_status = \"triggered\"
+
 func _ready():
 	set_fixed_process(true)
 	player = get_node('../Player')
 	target = get_node('../Ally')
 	
 func _fixed_process(delta):
-	print (self.activated)
 	if self.activated:
 		var player_direction = player.get_global_pos() - self.get_global_pos()
 		var target_direction = target.get_global_pos() - self.get_global_pos()
@@ -56,11 +56,20 @@ func _fixed_process(delta):
 				else:
 					target_enemy = \"target\"
 		
+			if aggro_status == \"triggered\":
+				var dec = get_node('../decoy')
+				if dec.lifetime < 10:
+					var dec_direction = dec.get_global_pos() - self.get_global_pos()
+					self.move(dec_direction * speed * delta)
+				else:
+					aggro_status = \"enabled\"
+				
+				
 		if target_enemy == \"player\" and enabled:
-			speed = 0.50
+			speed = 0.25
 			self.move(player_direction * speed * delta)
 		elif enabled:
-			speed = 1
+			speed = 0.50
 			self.move(target_direction * speed * delta)
 		
 		if timeout <= 0:
@@ -68,20 +77,24 @@ func _fixed_process(delta):
 		else:
 			timeout = timeout - delta
 			
-		if aggro_status == \"enabled\":
-			if aggro_btn.check() == 1: #JUST PRESSED
-				aggro_status = \"triggered\"
-				aux_aggro_timer = aggro_enabled_time
-		if aggro_status == \"triggered\":
-			target_enemy = \"player\"
-			aux_aggro_timer -= delta
-			if aux_aggro_timer <= 0:
-				aux_aggro_timer = aggro_cooldown_time
-				aggro_status = \"cooldown\"
-		if aggro_status == \"cooldown\":
-			aux_aggro_timer -= delta
-			if aux_aggro_timer <= 0:
-				aggro_status = \"enabled\""
+		print(self.aggro_status)
+		
+		
+		
+		#if aggro_status == \"enabled\":
+		#	if aggro_btn.check() == 1: #JUST PRESSED
+		#		aggro_status = \"triggered\"
+		#		aux_aggro_timer = aggro_enabled_time
+		#if aggro_status == \"triggered\":
+		#	target_enemy = \"player\"
+		#	aux_aggro_timer -= delta
+		#	if aux_aggro_timer <= 0:
+		#		aux_aggro_timer = aggro_cooldown_time
+		#		aggro_status = \"cooldown\"
+		#if aggro_status == \"cooldown\":
+		#	aux_aggro_timer -= delta
+		#	if aux_aggro_timer <= 0:
+		#		aggro_status = \"enabled\""
 
 [node name="MeleeEnemy" type="KinematicBody2D" groups=[
 "enemies",
