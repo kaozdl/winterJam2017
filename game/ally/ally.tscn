@@ -10,8 +10,8 @@ extents = Vector2( 10, 10 )
 [sub_resource type="GDScript" id=2]
 
 script/source = "extends KinematicBody2D
+var input_states = preload('res://utils/input_states.gd')
 
-export var cool_down = 10
 export var slow_factor = 0.2
 export var time_out_default = 8
 
@@ -19,6 +19,14 @@ var player = null
 var direction = Vector2()
 var velocity = Vector2()
 var time_out = time_out_default
+
+var hurry_enabled_time = 3
+var hurry_cooldown_time = 20
+var hurry_enabled = true
+var aux_hurry_timer = 3
+var sprint_btn = input_states.new(\"sprint_btn\")
+var sprint_status = \"enabled\"
+ 
 
 func is_in_length_range(vector):
 	return (100 < vector.length()) and (vector.length() < 650)
@@ -33,6 +41,22 @@ func _ready():
 func _fixed_process(delta):
 	direction = player.get_global_pos() - get_global_pos()
 	
+	if sprint_status == \"enabled\":
+		if sprint_btn.check() == 1: #JUST PRESSED
+			sprint_status = \"sprinting\"
+			slow_factor = slow_factor * 4
+			aux_hurry_timer = hurry_enabled_time
+	if sprint_status == \"sprinting\":
+		aux_hurry_timer -= delta
+		if aux_hurry_timer <= 0:
+			slow_factor = slow_factor / 4
+			aux_hurry_timer = hurry_cooldown_time
+			sprint_status = \"cooldown\"
+	if sprint_status == \"cooldown\":
+		aux_hurry_timer -= delta
+		if aux_hurry_timer <= 0:
+			sprint_status = \"enabled\"
+	print(sprint_status)
 	if is_gonna_die(direction):
 		time_out -= delta
 		print(time_out)
@@ -60,7 +84,6 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = SubResource( 2 )
-cool_down = 10
 slow_factor = 0.35
 time_out_default = 8
 

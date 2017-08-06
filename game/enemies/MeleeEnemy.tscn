@@ -29,7 +29,6 @@ func disable():
 	
 func _ready():
 	set_fixed_process(true)
-	timer = get_node(\"Timer\")
 	player = get_node('../Player')
 	target = get_node('../Ally')
 	
