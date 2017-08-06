@@ -21,6 +21,8 @@ var enable_decoy = true
 # MOVE
 var left_btn = input_states.new("walk_left")
 var right_btn = input_states.new("walk_right")
+var down_btn = input_states.new("walk_down")
+var up_btn = input_states.new("walk_up")
 
 func attack(target_area):
 	enemies_on_area = target_area.get_overlapping_bodies()
@@ -69,17 +71,28 @@ func _fixed_process(delta):
 		if decoy_aux_cooldown <= 0:
 			decoy_aux_cooldown = decoy_cooldown
 			enable_decoy = true
-			
-	if left_btn.check() == 1:
+	
+	# play animation
+	if down_btn.check() == 1  \
+			and (not Input.is_action_pressed("walk_left") \
+			or not Input.is_action_pressed("walk_right")):
+		get_node("AnimatedSprite/AnimationPlayer").play("down")
+	elif up_btn.check() == 1  \
+			and (not Input.is_action_pressed("walk_left") \
+			or not Input.is_action_pressed("walk_right")):
+		get_node("AnimatedSprite/AnimationPlayer").play("up")
+	elif left_btn.check() == 1:
 		get_node("AnimatedSprite/AnimationPlayer").play("left")
 	elif right_btn.check() == 1:
 		get_node("AnimatedSprite/AnimationPlayer").play("right")
-	elif not Input.is_action_pressed("walk_right") and not Input.is_action_pressed("walk_left"):
+	elif not Input.is_action_pressed("walk_right") \
+			and not Input.is_action_pressed("walk_left") \
+			and not Input.is_action_pressed("walk_down") \
+			and not Input.is_action_pressed("walk_up"):
 		get_node("AnimatedSprite/AnimationPlayer").play("idle")
 	
 	if (Input.is_action_pressed("walk_left")):
 		velocity.x = -player_speed
-		#get_node("AnimatedSprite/AnimationPlayer").play("left")
 	elif (Input.is_action_pressed("walk_right")):
 		velocity.x = player_speed
 		
@@ -89,11 +102,6 @@ func _fixed_process(delta):
 	elif (Input.is_action_pressed("walk_down")):
 		velocity.y = player_speed
 		FutureFacingDirection = "down"
-		#get_node("AnimatedSprite/AnimationPlayer").play("down")
-		
-	if (Input.is_action_pressed("walk_down") and Input.is_action_pressed("walk_right")):
-		#get_node("AnimatedSprite/AnimationPlayer").play("down_right")
-		pass
 
 	var motion = velocity * delta
 	motion = move(motion)
