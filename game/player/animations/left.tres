@@ -2,7 +2,6 @@
 
 [resource]
 
-resource/name = "left"
 length = 1.0
 loop = true
 step = 0.1
@@ -13,7 +12,7 @@ tracks/0/imported = false
 tracks/0/keys = {
 "times": FloatArray( 0, 1 ),
 "transitions": FloatArray( 1, 1 ),
-"update": 1,
-"values": [ 3, 3 ]
+"update": 0,
+"values": [ 0, 10 ]
 }
 

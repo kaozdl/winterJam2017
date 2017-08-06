@@ -18,6 +18,8 @@ var decoy = null
 var decoy_cooldown = 8
 var decoy_aux_cooldown = decoy_cooldown
 var enable_decoy = true
+# MOVE
+var left_btn = input_states.new("walk_left")
 
 func attack(target_area):
 	enemies_on_area = target_area.get_overlapping_bodies()
@@ -34,6 +36,7 @@ func _ready():
 	fuAttackArea = get_node("FuAttackArea")
 	fdAttackArea = get_node("FdAttackArea")
 	set_fixed_process(true)
+	get_node("AnimatedSprite/AnimationPlayer").play("idle")
 
 func _fixed_process(delta):
 	on_camera = get_node("Camera2D/On_camera")
@@ -49,12 +52,11 @@ func _fixed_process(delta):
 	else:
 		attack_area = fdAttackArea
 	
-	if attack_btn.check() == 2: # JUST PRESSED
+	if attack_btn.check() == 1: # JUST PRESSED
 		attack(attack_area)
 	
 	velocity.x = 0
 	velocity.y = 0
-	get_node("AnimatedSprite/AnimationPlayer").play("idle")
 	
 	if aggro_btn.check() == 1 and enable_decoy:
 		decoy = get_node('../decoy')
@@ -66,10 +68,15 @@ func _fixed_process(delta):
 		if decoy_aux_cooldown <= 0:
 			decoy_aux_cooldown = decoy_cooldown
 			enable_decoy = true
+			
+	if left_btn.check() == 1:
+		get_node("AnimatedSprite/AnimationPlayer").play("left")
+	if left_btn.check() == 0:
+		get_node("AnimatedSprite/AnimationPlayer").play("idle")
 	
 	if (Input.is_action_pressed("walk_left")):
 		velocity.x = -player_speed
-		get_node("AnimatedSprite/AnimationPlayer").play("left")
+		#get_node("AnimatedSprite/AnimationPlayer").play("left")
 	elif (Input.is_action_pressed("walk_right")):
 		velocity.x = player_speed
 		
@@ -79,10 +86,11 @@ func _fixed_process(delta):
 	elif (Input.is_action_pressed("walk_down")):
 		velocity.y = player_speed
 		FutureFacingDirection = "down"
-		get_node("AnimatedSprite/AnimationPlayer").play("down")
+		#get_node("AnimatedSprite/AnimationPlayer").play("down")
 		
 	if (Input.is_action_pressed("walk_down") and Input.is_action_pressed("walk_right")):
-		get_node("AnimatedSprite/AnimationPlayer").play("down_right")
+		#get_node("AnimatedSprite/AnimationPlayer").play("down_right")
+		pass
 
 	var motion = velocity * delta
 	motion = move(motion)
