@@ -20,6 +20,7 @@ var decoy_aux_cooldown = decoy_cooldown
 var enable_decoy = true
 # MOVE
 var left_btn = input_states.new("walk_left")
+var right_btn = input_states.new("walk_right")
 
 func attack(target_area):
 	enemies_on_area = target_area.get_overlapping_bodies()
@@ -71,7 +72,9 @@ func _fixed_process(delta):
 			
 	if left_btn.check() == 1:
 		get_node("AnimatedSprite/AnimationPlayer").play("left")
-	if left_btn.check() == 0:
+	elif right_btn.check() == 1:
+		get_node("AnimatedSprite/AnimationPlayer").play("right")
+	elif not Input.is_action_pressed("walk_right") and not Input.is_action_pressed("walk_left"):
 		get_node("AnimatedSprite/AnimationPlayer").play("idle")
 	
 	if (Input.is_action_pressed("walk_left")):
