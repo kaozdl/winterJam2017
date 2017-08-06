@@ -33,7 +33,7 @@ func attack(target_area,delta):
 	for enemy in enemies_on_area:
 		if enemy.is_in_group("enemies"):
 			enemy.disable()
-			enemy.move(Vector2(0,-1).rotated(get_global_pos().angle_to_point(enemy.get_pos()))* kbck_speed *delta)
+			enemy.move(Vector2(0,-4).rotated(get_global_pos().angle_to_point(enemy.get_pos()))* kbck_speed *delta)
 			
 
 func enable_bots(enemies_on_camera):
@@ -53,7 +53,6 @@ func _ready():
 	get_node("AnimatedSprite/AnimationPlayer").play("idle")
 
 func _fixed_process(delta):
-	decoy_label.set_text(str(decoy_aux_cooldown))
 	on_camera = get_node("Camera2D/On_camera")
 	enemies_on_camera = on_camera.get_overlapping_bodies()
 	enable_bots(enemies_on_camera)

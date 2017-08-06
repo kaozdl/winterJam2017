@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://scenes/pared11.tex" type="Texture" id=1]
 [ext_resource path="res://scenes/piso1(1).tex" type="Texture" id=2]
 [ext_resource path="res://scenes/pared_lisa.tex" type="Texture" id=3]
 [ext_resource path="res://scenes/pared1.tex" type="Texture" id=4]
+[ext_resource path="res://scenes/concavo2.tex" type="Texture" id=5]
+[ext_resource path="res://scenes/convexo2.tex" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -78,5 +80,15 @@ texture = ExtResource( 2 )
 
 transform/pos = Vector2( 400, 0 )
 texture = ExtResource( 4 )
+
+[node name="corner" type="Sprite" parent="."]
+
+transform/pos = Vector2( 500, 0 )
+texture = ExtResource( 5 )
+
+[node name="corner2" type="Sprite" parent="."]
+
+transform/pos = Vector2( 600, 0 )
+texture = ExtResource( 6 )
 
 
