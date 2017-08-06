@@ -10,8 +10,8 @@ extents = Vector2( 10, 10 )
 [sub_resource type="GDScript" id=2]
 
 script/source = "extends KinematicBody2D
+var input_states = preload('res://utils/input_states.gd')
 
-# class member variables go here, for example:
 var area = null
 var player = null
 var target = null
@@ -19,6 +19,13 @@ var speed
 var enabled = true
 var timer = null
 export var timeout = 0
+var target_enemy
+var aggro_enabled_time = 3
+var aggro_cooldown_time = 20
+var aggro_enabled = true
+var aux_aggro_timer = 3
+var aggro_btn = input_states.new(\"aggro_btn\")
+var aggro_status = \"enabled\"
 
 func enable():
 	self.enabled = true
@@ -36,17 +43,41 @@ func _fixed_process(delta):
 	var player_direction = player.get_global_pos() - self.get_global_pos()
 	var target_direction = target.get_global_pos() - self.get_global_pos()
 	
+	
+	
 	if enabled:
-		if player_direction.length() < target_direction.length():
-			speed = 0.50
-			self.move(player_direction * speed * delta)
-		else:
-			speed = 1
-			self.move(target_direction * speed * delta)
-	elif timeout <= 0:
+		if aggro_status != \"triggered\": #Normal situation
+			if player_direction.length() < target_direction.length():
+				target_enemy = \"player\"
+			else:
+				target_enemy = \"target\"
+	
+	if target_enemy == \"player\" and enabled:
+		speed = 0.50
+		self.move(player_direction * speed * delta)
+	elif enabled:
+		speed = 1
+		self.move(target_direction * speed * delta)
+	
+	if timeout <= 0:
 		enabled = true
 	else:
-		timeout = timeout - delta"
+		timeout = timeout - delta
+		
+	if aggro_status == \"enabled\":
+		if aggro_btn.check() == 1: #JUST PRESSED
+			aggro_status = \"triggered\"
+			aux_aggro_timer = aggro_enabled_time
+	if aggro_status == \"triggered\":
+		target_enemy = \"player\"
+		aux_aggro_timer -= delta
+		if aux_aggro_timer <= 0:
+			aux_aggro_timer = aggro_cooldown_time
+			aggro_status = \"cooldown\"
+	if aggro_status == \"cooldown\":
+		aux_aggro_timer -= delta
+		if aux_aggro_timer <= 0:
+			aggro_status = \"enabled\""
 
 [node name="MeleeEnemy" type="KinematicBody2D" groups=[
 "enemies",

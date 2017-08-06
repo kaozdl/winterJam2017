@@ -56,10 +56,8 @@ func _fixed_process(delta):
 		aux_hurry_timer -= delta
 		if aux_hurry_timer <= 0:
 			sprint_status = \"enabled\"
-	print(sprint_status)
 	if is_gonna_die(direction):
 		time_out -= delta
-		print(time_out)
 		if time_out <= 0:
 			print(\"Moriste\")
 	else:
