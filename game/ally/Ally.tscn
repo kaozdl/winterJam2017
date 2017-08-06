@@ -10,6 +10,7 @@ extents = Vector2( 10, 10 )
 [sub_resource type="GDScript" id=2]
 
 script/source = "extends KinematicBody2D
+
 var input_states = preload('res://utils/input_states.gd')
 var player = null
 export var follow = true
@@ -17,7 +18,7 @@ export var speed = 10
 var toggle_follow = input_states.new('toggle_follow')
 
 func in_length_range(vector):
-	return (100 < vector.length()) and ( vector.length() < 600)
+	return (100 < vector.length()) and (vector.length() < 600)
 
 func _ready():
 	player = get_node(\"../Player\")
@@ -29,8 +30,14 @@ func _fixed_process(delta):
 		self.follow = false
 	else:
 		self.follow = true
+	
 	if self.follow and in_length_range(direction):
-		self.move(direction * speed * delta)
+		var move = self.move(direction * speed * delta)
+		
+		if (is_colliding()):
+			var n = get_collision_normal()
+			move = n.slide(direction * speed * delta)
+			move(move)
 	"
 
 [node name="Ally" type="KinematicBody2D"]
@@ -56,7 +63,5 @@ transform/scale = Vector2( 3, 3 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
-
-[node name="player_find" type="Navigation2D" parent="."]
 
 
