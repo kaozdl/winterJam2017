@@ -5,6 +5,8 @@ var input_states = preload('res://utils/input_states.gd')
 var velocity = Vector2()
 var fuAttackArea = null
 var fdAttackArea = null
+var on_camera = null
+var enemies_on_camera = []
 var enemies_on_area = []
 var FacingDirection 
 var FutureFacingDirection
@@ -16,7 +18,11 @@ func attack(target_area):
 	for enemy in enemies_on_area:
 		if enemy.is_in_group("enemies"):
 			enemy.disable()
-	
+
+func enable_bots(enemies_on_camera):
+	for enemy in enemies_on_camera:
+		if enemy.is_in_group("enemies"):
+			enemy.activate()
 func _ready():
 	FacingDirection = "up"
 	fuAttackArea = get_node("FuAttackArea")
@@ -24,6 +30,10 @@ func _ready():
 	set_fixed_process(true)
 
 func _fixed_process(delta):
+	on_camera = get_node("Camera2D/On_camera")
+	enemies_on_camera = on_camera.get_overlapping_bodies()
+	enable_bots(enemies_on_camera)
+	
 	PreviousFacingDirection = FacingDirection
 	FacingDirection = FutureFacingDirection
 		

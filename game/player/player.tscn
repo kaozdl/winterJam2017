@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://player/down.tex" type="Texture" id=2]
@@ -18,6 +18,11 @@
 
 custom_solver_bias = 0.0
 extents = Vector2( 25, 50 )
+
+[sub_resource type="RectangleShape2D" id=5]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -53,6 +58,48 @@ __meta__ = {
 "_edit_group_": true
 }
 player_speed = 200
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+visibility/behind_parent = true
+material/use_parent = true
+transform/pos = Vector2( -0.999329, 38.5742 )
+transform/scale = Vector2( 1.57562, 0.899336 )
+z/relative = false
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="On_camera" type="Area2D" parent="Camera2D"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 33, 0, 0, 34, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="camera_shape" type="CollisionShape2D" parent="Camera2D/On_camera"]
+
+transform/scale = Vector2( 33, 34 )
+shape = SubResource( 5 )
+trigger = false
+_update_shape_index = 0
 
 [node name="FdAttackArea" type="Area2D" parent="."]
 
@@ -120,29 +167,5 @@ autoplay = "idle"
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-visibility/behind_parent = true
-material/use_parent = true
-transform/pos = Vector2( -0.999329, 38.5742 )
-transform/scale = Vector2( 1.57562, 0.899336 )
-z/relative = false
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = false
-smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
 
 
