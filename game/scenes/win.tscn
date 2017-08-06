@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://scenes/win.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -24.0
+margin/top = -7.0
+margin/right = 113.0
+margin/bottom = 7.0
+text = "YOU HAVE SUCCEDED"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 22.0
+margin/right = 77.0
+margin/bottom = 42.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Play again"
+flat = false
+script/script = ExtResource( 1 )
+
+
