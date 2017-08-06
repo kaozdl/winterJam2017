@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://player/down.tex" type="Texture" id=2]
@@ -19,7 +19,17 @@
 custom_solver_bias = 0.0
 extents = Vector2( 25, 50 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
@@ -44,9 +54,50 @@ __meta__ = {
 }
 player_speed = 200
 
+[node name="FdAttackArea" type="Area2D" parent="."]
+
+transform/pos = Vector2( 0, 45 )
+transform/scale = Vector2( 1.5, 1 )
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 3.2, 0, 0, 3.2, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FdAttackArea"]
+
+transform/scale = Vector2( 3.2, 3.2 )
+shape = SubResource( 2 )
+trigger = true
+_update_shape_index = 0
+
+[node name="FuAttackArea" type="Area2D" parent="."]
+
+transform/pos = Vector2( -0.24588, -33.7386 )
+transform/scale = Vector2( 1.57281, 1.003 )
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 3.1, 0, 0, 3.1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FuAttackArea"]
+
+transform/scale = Vector2( 3.1, 3.1 )
+shape = SubResource( 3 )
+trigger = true
+_update_shape_index = 0
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
-frames = SubResource( 2 )
+editor/display_folded = true
+frames = SubResource( 4 )
 animation = "default"
 frame = 2
 
@@ -74,6 +125,8 @@ _update_shape_index = 0
 
 visibility/behind_parent = true
 material/use_parent = true
+transform/pos = Vector2( -0.999329, 38.5742 )
+transform/scale = Vector2( 1.57562, 0.899336 )
 z/relative = false
 anchor_mode = 1
 rotating = false

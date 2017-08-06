@@ -13,7 +13,7 @@ script/source = "extends KinematicBody2D
 var input_states = preload('res://utils/input_states.gd')
 var player = null
 export var follow = true
-export var speed = 1
+export var speed = 10
 var toggle_follow = input_states.new('toggle_follow')
 
 func in_length_range(vector):
@@ -25,14 +25,12 @@ func _ready():
 
 func _fixed_process(delta):
 	var direction = player.get_global_pos() - self.get_global_pos()
-	print (direction.length())
 	if toggle_follow.check() == 2:
 		self.follow = false
 	else:
 		self.follow = true
 	if self.follow and in_length_range(direction):
 		self.move(direction * speed * delta)
-		#self.move_to(player_position)
 	"
 
 [node name="Ally" type="KinematicBody2D"]
