@@ -25,6 +25,7 @@ var aggro_enabled = true
 var aux_aggro_timer = 3
 var aggro_status = \"enabled\"
 var activated = false
+var exceptions = null
 
 func enable():
 	self.enabled = true
@@ -43,6 +44,7 @@ func _ready():
 	set_fixed_process(true)
 	player = get_node('../Player')
 	target = get_node('../Ally')
+	
 	
 func _fixed_process(delta):
 	if self.activated:
@@ -76,25 +78,7 @@ func _fixed_process(delta):
 			enabled = true
 		else:
 			timeout = timeout - delta
-			
-		print(self.aggro_status)
-		
-		
-		
-		#if aggro_status == \"enabled\":
-		#	if aggro_btn.check() == 1: #JUST PRESSED
-		#		aggro_status = \"triggered\"
-		#		aux_aggro_timer = aggro_enabled_time
-		#if aggro_status == \"triggered\":
-		#	target_enemy = \"player\"
-		#	aux_aggro_timer -= delta
-		#	if aux_aggro_timer <= 0:
-		#		aux_aggro_timer = aggro_cooldown_time
-		#		aggro_status = \"cooldown\"
-		#if aggro_status == \"cooldown\":
-		#	aux_aggro_timer -= delta
-		#	if aux_aggro_timer <= 0:
-		#		aggro_status = \"enabled\""
+			"
 
 [node name="MeleeEnemy" type="KinematicBody2D" groups=[
 "enemies",

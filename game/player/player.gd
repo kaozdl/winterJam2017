@@ -18,17 +18,23 @@ var decoy = null
 var decoy_cooldown = 8
 var decoy_aux_cooldown = decoy_cooldown
 var enable_decoy = true
+var decoy_label = null
 # MOVE
 var left_btn = input_states.new("walk_left")
 var right_btn = input_states.new("walk_right")
 var down_btn = input_states.new("walk_down")
 var up_btn = input_states.new("walk_up")
+var kbck_speed = 400
+var colSprite = null
 
-func attack(target_area):
+
+func attack(target_area,delta):
 	enemies_on_area = target_area.get_overlapping_bodies()
 	for enemy in enemies_on_area:
 		if enemy.is_in_group("enemies"):
 			enemy.disable()
+			enemy.move(Vector2(0,-1).rotated(get_global_pos().angle_to_point(enemy.get_pos()))* kbck_speed *delta)
+			
 
 func enable_bots(enemies_on_camera):
 	for enemy in enemies_on_camera:
@@ -38,10 +44,16 @@ func _ready():
 	FacingDirection = "up"
 	fuAttackArea = get_node("FuAttackArea")
 	fdAttackArea = get_node("FdAttackArea")
+	colSprite = get_node("../Ally")
+	decoy_label = get_node('Camera2D/decoy_cooldown')
+	
+	add_collision_exception_with(colSprite)
+	
 	set_fixed_process(true)
 	get_node("AnimatedSprite/AnimationPlayer").play("idle")
 
 func _fixed_process(delta):
+	decoy_label.set_text(str(decoy_aux_cooldown))
 	on_camera = get_node("Camera2D/On_camera")
 	enemies_on_camera = on_camera.get_overlapping_bodies()
 	enable_bots(enemies_on_camera)
@@ -56,7 +68,8 @@ func _fixed_process(delta):
 		attack_area = fdAttackArea
 	
 	if attack_btn.check() == 1: # JUST PRESSED
-		attack(attack_area)
+		attack(attack_area,delta)
+
 	
 	velocity.x = 0
 	velocity.y = 0

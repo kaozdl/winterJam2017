@@ -1,9 +1,16 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://scenes/pared_berreta.tex" type="Texture" id=1]
-[ext_resource path="res://scenes/piso_berreta.tex" type="Texture" id=2]
+[ext_resource path="res://scenes/pared11.tex" type="Texture" id=1]
+[ext_resource path="res://scenes/piso1(1).tex" type="Texture" id=2]
+[ext_resource path="res://scenes/pared_lisa.tex" type="Texture" id=3]
+[ext_resource path="res://scenes/pared1.tex" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 25, 25 )
+
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 25, 25 )
@@ -37,5 +44,39 @@ _update_shape_index = 0
 
 transform/pos = Vector2( 100, 0 )
 texture = ExtResource( 2 )
+
+[node name="wall 2" type="Sprite" parent="."]
+
+transform/pos = Vector2( 200, 0 )
+texture = ExtResource( 3 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="wall 2"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall 2/StaticBody2D"]
+
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[node name="floor" type="Sprite" parent="."]
+
+transform/pos = Vector2( 300, 0 )
+texture = ExtResource( 2 )
+
+[node name="floorWall" type="Sprite" parent="."]
+
+transform/pos = Vector2( 400, 0 )
+texture = ExtResource( 4 )
 
 

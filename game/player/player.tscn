@@ -1,11 +1,18 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
-[ext_resource path="res://player/animations/sprite_frames.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://player/animations/down.tres" type="Animation" id=3]
-[ext_resource path="res://player/animations/left.tres" type="Animation" id=4]
-[ext_resource path="res://player/animations/right.tres" type="Animation" id=5]
-[ext_resource path="res://player/animations/up.tres" type="Animation" id=6]
+[ext_resource path="res://player/down.tex" type="Texture" id=2]
+[ext_resource path="res://player/down_left.tex" type="Texture" id=3]
+[ext_resource path="res://player/down_right.tex" type="Texture" id=4]
+[ext_resource path="res://player/left.tex" type="Texture" id=5]
+[ext_resource path="res://player/right.tex" type="Texture" id=6]
+[ext_resource path="res://player/up.tex" type="Texture" id=7]
+[ext_resource path="res://player/up_left.tex" type="Texture" id=8]
+[ext_resource path="res://player/up_right.tex" type="Texture" id=9]
+[ext_resource path="res://player/animations/down.tres" type="Animation" id=10]
+[ext_resource path="res://player/animations/down_right.tres" type="Animation" id=11]
+[ext_resource path="res://player/animations/idle.tres" type="Animation" id=12]
+[ext_resource path="res://player/animations/left.tres" type="Animation" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -27,22 +34,14 @@ extents = Vector2( 10, 10 )
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="SpriteFrames" id=5]
 
-resource/name = "idle"
-length = 1.0
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0 ),
-"transitions": FloatArray( 1 ),
-"update": 0,
-"values": [ 0 ]
-}
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Player" type="KinematicBody2D"]
 
@@ -55,9 +54,6 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 player_speed = 200
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -88,7 +84,7 @@ drag_margin/bottom = 0.2
 
 input/pickable = true
 shapes/0/shape = SubResource( 2 )
-shapes/0/transform = Matrix32( 26, 0, 0, 27, 0, 0 )
+shapes/0/transform = Matrix32( 26, 0, 0, 27, -1.26933, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -97,10 +93,42 @@ angular_damp = 1.0
 
 [node name="camera_shape" type="CollisionShape2D" parent="Camera2D/On_camera"]
 
+transform/pos = Vector2( -1.26933, 0 )
 transform/scale = Vector2( 26, 27 )
 shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
+
+[node name="Label" type="Label" parent="Camera2D"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -250.0
+margin/top = -248.0
+margin/right = -191.0
+margin/bottom = -206.0
+text = "  Decoy   Cooldown :
+Vip Sprint Cooldown:"
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="decoy_cooldown" type="Label" parent="Camera2D"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -95.0
+margin/top = -259.0
+margin/right = -53.0
+margin/bottom = -234.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="FdAttackArea" type="Area2D" parent="."]
 
@@ -108,7 +136,7 @@ transform/pos = Vector2( 0, 45 )
 transform/scale = Vector2( 1.5, 1 )
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 3.2, 0, 0, 3.2, 0, 0 )
+shapes/0/transform = Matrix32( 3.2, 0, 0, 3.2, -2, -5 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -117,6 +145,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FdAttackArea"]
 
+transform/pos = Vector2( -2, -5 )
 transform/scale = Vector2( 3.2, 3.2 )
 shape = SubResource( 3 )
 trigger = true
@@ -142,32 +171,31 @@ shape = SubResource( 4 )
 trigger = true
 _update_shape_index = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
-frames = ExtResource( 2 )
+editor/display_folded = true
+frames = SubResource( 5 )
 animation = "default"
-frame = 43
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/down = ExtResource( 3 )
-anims/idle = SubResource( 5 )
-anims/left = ExtResource( 4 )
-anims/right = ExtResource( 5 )
-anims/up = ExtResource( 6 )
-next/idle = "idle"
+anims/down = ExtResource( 10 )
+anims/down_right = ExtResource( 11 )
+anims/idle = ExtResource( 12 )
+anims/left = ExtResource( 13 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
 
 
