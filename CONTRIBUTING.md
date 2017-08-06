@@ -1,4 +1,4 @@
-==ARTWORK AND DESIGN==
+# ARTWORK AND DESIGN
 
 [mrwulfgar](https://mrwulfgar.tumblr.com)
 
@@ -8,7 +8,7 @@
 
 
 
-==PROGRAMMING==
+# PROGRAMMING
 
 [Ignacio Aguirrezabal](https://github.com/zirion)
 
@@ -16,6 +16,6 @@
 
 
 
-==MUSIC==
+# MUSIC
 
 [Nacho Emeka](http://soundcloud.com/nacho-emeka)
